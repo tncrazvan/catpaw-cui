@@ -12,14 +12,13 @@ namespace {
         CharacterService $char
     ) {
         while (true) {
-            $text = "hello world!";
-
+            yield $char->send("\033c");
             yield $char->send(foreground(255, 0, 0));
             yield $char->send(box("hello world"));
             yield $char->send(box("hello world"));
             yield $char->send(box("hello world"));
-            yield delay(30);
-            yield $char->send("\033c");
+            yield $char->send(NOCOLOR);
+            yield delay(100);
         }
     }
 }

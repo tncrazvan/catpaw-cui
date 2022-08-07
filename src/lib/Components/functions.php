@@ -7,7 +7,7 @@ use function CatPaw\CUI\size;
 function box(string $text):string {
     [ 'width' => $width ] = size($text);
 
-    [ 'lines' => $$lines ] = pad($text, ' ', \LINE_Y);
+    [ 'lines' => $lines ] = pad($text, ' ', \LINE_Y);
     
     $xline = str_repeat(LINE_X, $width);
 
