@@ -1,6 +1,8 @@
 <?php
 namespace CatPaw\CUI\Colors;
 
+\define("NOCOLOR", "\033[0m");
+
 function background(
     int $red = 0,
     int $green = 0,
@@ -21,11 +23,4 @@ function foreground(
     $green %= 256;
     $blue  %= 256;
     return "\033[38;2;{$red};{$green};{$blue}2m";
-}
-
-function nocolor() {
-    return "\033[0m";
-}
-
-function clear() {
 }

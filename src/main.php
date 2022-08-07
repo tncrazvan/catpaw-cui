@@ -1,26 +1,23 @@
 <?php
 namespace {
 
-    use function CatPaw\CUI\Colors\background;
+    use function Amp\delay;
 
     use function CatPaw\CUI\Colors\foreground;
-    use function CatPaw\CUI\Colors\nocolor;
+    use function CatPaw\CUI\Components\box;
 
-    use CatPaw\CUI\Services\ExecutorService;
+    use CatPaw\CUI\Services\CharacterService;
 
     function main(
-        ExecutorService $ex
+        CharacterService $char
     ) {
-        yield $ex->run("reset");
-        yield $ex->echo(join([
-            PHP_EOL,
-            PHP_EOL,
-            foreground(255, 0, 0),
-            background(0, 200, 0),
-            "hello world",
-            nocolor(),
-            PHP_EOL,
-            PHP_EOL,
-        ]));
+        while (true) {
+            $text = "hello world!";
+
+            yield $char->send(foreground(255, 0, 0));
+            yield $char->send(box("hello world"));
+            yield delay(30);
+            yield $char->send("\033c");
+        }
     }
 }
