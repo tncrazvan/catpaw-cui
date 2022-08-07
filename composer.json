@@ -24,8 +24,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "App\\": "src/lib/"
-    }
+      "CatPaw\\CUI\\": "src/lib/"
+    },
+    "files": [
+      "src/lib/Colors/functions.php"
+    ]
   },
   "require": {
     "php": "^8.1",

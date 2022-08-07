@@ -8,9 +8,8 @@
             "program": "${workspaceFolder}/bin/start",
             "cwd": "${workspaceFolder}",
             "args": [
-                "-fsrc/main.php"
+                "-esrc/main.php"
             ],
-            "port": 0,
             "runtimeArgs": [
                 "-dxdebug.start_with_request=yes",
                 "-dxdebug.mode=debug"
@@ -33,9 +32,8 @@
             "program": "${workspaceFolder}/bin/start",
             "cwd": "${workspaceFolder}",
             "args": [
-                "${file}"
+                "-e${file}"
             ],
-            "port": 0,
             "runtimeArgs": [
                 "-dxdebug.start_with_request=yes",
                 "-dxdebug.mode=debug"
