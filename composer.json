@@ -1,8 +1,8 @@
 {
   "name": "catpaw/starter",
   "type": "project",
-  "description": "A php CatPaw starter template",
-  "homepage": "https://github.com/tncrazvan/catpaw-starter",
+  "description": "A php CatPaw cli user interface",
+  "homepage": "https://github.com/tncrazvan/catpaw-cli",
   "license": "MIT",
   "scripts": {
     "load": "XDEBUG_MODE='off' composer dump-autoload -o",
@@ -10,7 +10,8 @@
       "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix src",
       "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix tests"
     ],
-    "action:test": "XDEBUG_MODE='off' php vendor/bin/phpunit tests/*",
+    "action:test": "XDEBUG_MODE='off' php vendor/bin/phpunit tests",
+    "test": "XDEBUG_MODE='debug' php vendor/bin/phpunit tests",
     "start": "XDEBUG_MODE='debug' php ./bin/start -esrc/main.php -lsrc/lib/ -i",
     "watch": "XDEBUG_MODE='debug' php ./bin/start -esrc/main.php -lsrc/lib/ -i -w"
   },
