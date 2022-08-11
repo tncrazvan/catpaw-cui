@@ -13,6 +13,10 @@ class CharacterService {
         $this->stdout = new ResourceOutputStream(\STDOUT);
     }
 
+    public function clear() {
+        $this->send("\033c");
+    }
+    
     public function send(string $instruction):Promise {
         return $this->stdout->write($instruction);
     }
