@@ -14,7 +14,7 @@ class CharacterService {
     }
 
     public function clear() {
-        $this->send("\033c");
+        return $this->send("\033c");
     }
     
     public function send(string $instruction):Promise {
