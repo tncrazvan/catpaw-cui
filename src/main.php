@@ -1,24 +1,25 @@
 <?php
 namespace {
 
-    use function Amp\delay;
 
+    use Amp\Loop;
+    use function CatPaw\CUI\clear;
     use function CatPaw\CUI\Colors\foreground;
+    
     use function CatPaw\CUI\Components\box;
+    use function CatPaw\CUI\send;
+    
+    use function CatPaw\CUI\Utilities\height;
+    use function CatPaw\CUI\Utilities\width;
 
-    use CatPaw\CUI\Services\CharacterService;
 
-    function main(
-        CharacterService $char
-    ) {
-        while (true) {
-            yield $char->send("\033c");
-            yield $char->send(foreground(255, 0, 0));
-            yield $char->send(box("hello world"));
-            yield $char->send(box("hello world"));
-            yield $char->send(box("hello world"));
-            yield $char->send(NOCOLOR);
-            yield delay(100);
-        }
+    function main() {
+        Loop::repeat(100, function() {
+            $width  = width();
+            $height = height();
+            yield clear();
+            yield send(foreground(255, 0, 0));
+            yield send(box("width: $width, height: $height"));
+        });
     }
 }

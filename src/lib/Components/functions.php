@@ -1,8 +1,8 @@
 <?php
 namespace CatPaw\CUI\Components;
 
-use function CatPaw\CUI\pad;
-use function CatPaw\CUI\size;
+use function CatPaw\CUI\Utilities\pad;
+use function CatPaw\CUI\Utilities\size;
 
 function box(string $text):string {
     [ 'width' => $width ] = size($text);

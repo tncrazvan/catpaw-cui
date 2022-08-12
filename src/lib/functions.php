@@ -1,40 +1,17 @@
 <?php
 namespace CatPaw\CUI;
 
-function size(string $text):array {
-    $lines     = \explode("\n", $text);
-    $maxHeight = count($lines);
-    $maxWidth  = 0;
-    $body      = [];
+use function Amp\call;
 
-    for ($i = 0; $i < $maxHeight; $i++) {
-        $width = \strlen($lines[$i]);
-        if ($width > $maxWidth) {
-            $maxWidth = $width;
-        }
-        $body[$i] = LINE_Y.$lines[$i].LINE_Y;
-    }
-
-    return [
-        'width'  => $maxWidth,
-        'height' => $maxHeight,
-    ];
+function send(string $instruction) {
+    Stream::initialize();
+    return Stream::send($instruction);
 }
 
-function pad(string $text, string $filler = ' ', string $edge = ''):array {
-    $lines = \explode("\n", $text);
-    [
-        'width'  => $width,
-        'height' => $height,
-    ] = size($text);
-
-    for ($i = 0; $i < $height; $i++) {
-        $lines[$i] = $edge.\str_pad($lines[$i], $width, $filler).$edge;
-    }
-    
-    return [
-        'width'  => $width,
-        'height' => $height,
-        'lines'  => $lines,
-    ];
+function clear() {
+    Stream::initialize();
+    return call(function() {
+        yield send(NOCOLOR);
+        return yield Stream::send("\033c");
+    });
 }
