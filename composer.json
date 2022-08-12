@@ -31,7 +31,7 @@
       "src/lib/functions.php",
       "src/lib/Colors/functions.php",
       "src/lib/Components/functions.php",
-      "src/lib/Shapes/functions.php"
+      "src/lib/Utilities/functions.php"
     ]
   },
   "require": {

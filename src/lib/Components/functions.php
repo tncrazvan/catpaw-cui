@@ -1,18 +1,20 @@
 <?php
 namespace CatPaw\CUI\Components;
 
-use function CatPaw\CUI\Utilities\pad;
-use function CatPaw\CUI\Utilities\size;
+use CatPaw\CUI\Shapes;
+
+use function CatPaw\CUI\Utilities\container;
 
 function box(string $text):string {
-    [ 'width' => $width ] = size($text);
-
-    [ 'lines' => $lines ] = pad($text, ' ', \LINE_Y);
-    
-    $xline = str_repeat(LINE_X, $width);
-
-    return 
-        CORNER_TOP_LEFT.$xline.CORNER_TOP_RIGHT.PHP_EOL
-        .join("\n", $lines).PHP_EOL
-        .CORNER_BOTTOM_LEFT.$xline.CORNER_BOTTOM_RIGHT.PHP_EOL;
+    return container(
+        text: $text,
+        tl: Shapes::CORNER_TOP_LEFT,
+        tr: Shapes::CORNER_TOP_RIGHT,
+        ml: Shapes::LINE_Y,
+        mr: Shapes::LINE_Y,
+        bl: Shapes::CORNER_BOTTOM_LEFT,
+        br: Shapes::CORNER_BOTTOM_RIGHT,
+        t: Shapes::LINE_X,
+        b: Shapes::LINE_X,
+    ).\PHP_EOL;
 }

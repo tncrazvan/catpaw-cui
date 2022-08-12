@@ -1,25 +1,22 @@
 <?php
-namespace {
+use function CatPaw\CUI\clear;
+use function CatPaw\CUI\Colors\foreground;
+use function CatPaw\CUI\Components\box;
+use function CatPaw\CUI\render;
+use function CatPaw\CUI\send;
+use function CatPaw\CUI\Utilities\height;
+use function CatPaw\CUI\Utilities\width;
 
 
-    use Amp\Loop;
-    use function CatPaw\CUI\clear;
-    use function CatPaw\CUI\Colors\foreground;
-    
-    use function CatPaw\CUI\Components\box;
-    use function CatPaw\CUI\send;
-    
-    use function CatPaw\CUI\Utilities\height;
-    use function CatPaw\CUI\Utilities\width;
+function main() {
+    render(function() {
+        $width  = width();
+        $height = height();
+        $time   = (new DateTime())->format("H:i:s");
 
-
-    function main() {
-        Loop::repeat(100, function() {
-            $width  = width();
-            $height = height();
-            yield clear();
-            yield send(foreground(255, 0, 0));
-            yield send(box("width: $width, height: $height"));
-        });
-    }
+        send(clear());
+        send(foreground(255, 0, 0));
+        send(box("width: $width, height: $height"));
+        send(box("The time is: $time"));
+    });
 }

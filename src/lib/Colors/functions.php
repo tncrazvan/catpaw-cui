@@ -1,7 +1,9 @@
 <?php
 namespace CatPaw\CUI\Colors;
 
-\define("NOCOLOR", "\033[0m");
+function nocolor(){
+    return "\033[0m";
+}
 
 function background(
     int $red = 0,
