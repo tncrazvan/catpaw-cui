@@ -12,7 +12,7 @@
     ],
     "action:test": [],
     "test": [],
-    "start": "XDEBUG_MODE='develop' php ./bin/start -esrc/main.php -lsrc/lib/ -i",
+    "start": "XDEBUG_MODE='debug' php ./bin/start -esrc/main.php -lsrc/lib/ -i",
     "watch": "XDEBUG_MODE='develop' php ./bin/start -esrc/main.php -lsrc/lib/ -i -w"
   },
   "authors": [
@@ -28,7 +28,6 @@
       "CatPaw\\CUI\\": "src/lib/"
     },
     "files": [
-      "src/lib/functions.php",
       "src/lib/Colors/functions.php",
       "src/lib/Components/functions.php",
       "src/lib/Utilities/functions.php"

@@ -7,7 +7,9 @@ use Amp\ByteStream\ResourceInputStream;
 use Amp\ByteStream\ResourceOutputStream;
 use function Amp\call;
 use Amp\Loop;
-use CatPaw\CUI\Utilities\Interval;
+use function CatPaw\CUI\Utilities\height;
+
+use function CatPaw\CUI\Utilities\width;
 
 use function CatPaw\milliseconds;
 
@@ -18,7 +20,7 @@ class Engine {
     public static ?ResourceInputStream $input   = null;
     public static array $backlog                = [];
     private static array $frame                 = [];
-    private static int $outputInterval          = 100;
+    private static int $outputInterval          = 10;
     private static ?Closure $render             = null;
     private static string $outputLoopID         = '';
 
@@ -90,22 +92,25 @@ class Engine {
         }
 
         self::$outputLoopID = Loop::repeat(self::$outputInterval, function() {
+            $frame          = self::$frame;
+            self::$frame    = [];
             if (!self::$render) {
                 return;
             }
             yield call(self::$render);
-            yield self::$output->write(join(self::$frame));
+            yield self::$output->write(join($frame));
         });
     }
 
 
     /**
      * Send a string to the output stream.
-     * @param  string          $instruction
+     * @param  callable(int $pwidth, int $pheight):string           $data
      * @throws ClosedException
      * @return void
      */
-    public static function send(string $instruction):void {
-        self::$frame[] = $instruction;
+    public static function send(callable $data):void {
+        $data          = $data(width(), height());
+        self::$frame[] = $data;
     }
 }

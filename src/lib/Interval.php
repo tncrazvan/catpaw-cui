@@ -1,6 +1,6 @@
 <?php
 
-namespace CatPaw\CUI\Utilities;
+namespace CatPaw\CUI;
 
 use function CatPaw\milliseconds;
 
@@ -42,7 +42,7 @@ class Interval {
      * @param  bool $reset if true, will automatically reset the timer.
      * @return bool true if it expired, false otherwise.
      */
-    public function isDue(bool $reset = true):bool {
+    public function isDue(bool $reset = false):bool {
         $due = milliseconds() >= $this->t0 + $this->milliseconds;
         if ($due && $reset) {
             $this->reset();
