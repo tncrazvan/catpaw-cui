@@ -14,6 +14,7 @@ use function CatPaw\CUI\Utilities\width;
 use function CatPaw\milliseconds;
 
 use Closure;
+use Error;
 
 class Engine {
     public static ?ResourceOutputStream $output = null;
@@ -23,12 +24,36 @@ class Engine {
     private static int $outputInterval          = 10;
     private static ?Closure $render             = null;
     private static string $outputLoopID         = '';
+    private static bool $running                = false;
 
+    /**
+     * Start both input and output streams (using STDIN and STDOUT) 
+     * and register the required readers and writers.
+     * @throws Error
+     * @return void
+     */
     public static function start() {
+        self::$running = true;
         self::setInput();
         self::setOutput();
     }
 
+    /** 
+     * Stop both input and output streams and unregister readers and writers.
+     * @return void
+     */
+    public function stop() {
+        self::$input->close();
+        self::$output->close();
+        self::$running = false;
+        Loop::cancel(self::$outputLoopID);
+    }
+
+    /**
+     * Set the main render loop.
+     * @param  callable $render
+     * @return void
+     */
     public static function setRender(callable $render) {
         self::$render = $render;
     }
@@ -40,7 +65,7 @@ class Engine {
      * @return void
      */
     public static function setInput($resource = null) {
-        if (self::$input) {
+        if (self::$input || !self::$running) {
             return;
         }
         if (!$resource) {
@@ -49,7 +74,7 @@ class Engine {
         self::$input = new ResourceInputStream($resource);
         system("stty -icanon");
         call(function() {
-            while (true) {
+            while (self::$running) {
                 $key                 = yield self::$input->read();
                 self::$backlog[$key] = milliseconds();
             }
@@ -63,7 +88,7 @@ class Engine {
      * @return void
      */
     public static function setOutput($resource = null) {
-        if (self::$output) {
+        if (self::$output || !self::$running) {
             return;
         }
         if (!$resource) {
@@ -91,9 +116,13 @@ class Engine {
             Loop::cancel(self::$outputLoopID);
         }
 
-        self::$outputLoopID = Loop::repeat(self::$outputInterval, function() {
-            $frame          = self::$frame;
-            self::$frame    = [];
+        self::$outputLoopID = Loop::repeat(self::$outputInterval, function(string $id) {
+            if (!self::$running) {
+                Loop::cancel($id);
+                return;
+            }
+            $frame       = self::$frame;
+            self::$frame = [];
             if (!self::$render) {
                 return;
             }

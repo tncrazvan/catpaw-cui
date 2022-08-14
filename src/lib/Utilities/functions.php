@@ -199,6 +199,7 @@ function clear():callable {
 
 interface RenderConfiguration {
     public function setInterval(Interval $interval):void;
+    public function stop():void;
 }
 
 /**
@@ -214,6 +215,8 @@ function render(callable $callback):RenderConfiguration {
     return new class implements RenderConfiguration {
         public function setInterval(Interval $interval):void {
             Engine::setOutputInterval($interval);
+        }
+        public function stop():void {
         }
     };
 }
