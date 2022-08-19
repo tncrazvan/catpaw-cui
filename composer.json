@@ -1,6 +1,6 @@
 {
   "name": "catpaw/cui",
-  "type": "project",
+  "type": "library",
   "description": "A php CatPaw CUI library",
   "homepage": "https://github.com/tncrazvan/catpaw-cli",
   "license": "MIT",
