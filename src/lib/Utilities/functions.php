@@ -40,10 +40,20 @@ function fitWidth(string $text, int $width):string {
     $updated                 = [];
     $shift                   = 0;
     for ($i = 0; $i < $actualHeight; $i++) {
-        $rawLine = trim($lines[$i]);
-        $line    = $lines[$i];
-        $delta   = \mb_strlen($line) - \mb_strlen($rawLine);
-        $chunks  = \mb_str_split($line, $width + $delta);
+        $rawLine     = trim($lines[$i]);
+        $line        = $lines[$i];
+        $extra       = preg_replace('/(\033\[\d\d;\d;\d{0,3};\d{0,3};\d{0,3}m)|(\033\[0m)/', '', $line);
+        $extraLength = \mb_strlen($extra);
+        $lineLength  = \mb_strlen($line);
+        $delta       = $lineLength - $extraLength;
+        $actualWidth = $width + $delta;
+        if ($actualWidth < 0) {
+            $actualWidth = 0;
+        }
+        // if ($extraLength > $width) {
+        // }
+        // $delta  = \mb_strlen($line) - \mb_strlen($rawLine);
+        $chunks = \mb_str_split($line, $actualWidth);
         if (!isset($chunks[0])) {
             $chunks = [''];
         }
@@ -146,7 +156,13 @@ function container(
  * @return string
  */
 function mbpad(string $mbstring, int $length, string $padding = ' '):string {
-    return join([$mbstring,\str_repeat($padding, $length - \mb_strlen($mbstring))]);
+    $extra        = preg_replace('/(\033\[\d\d;\d;\d{0,3};\d{0,3};\d{0,3}m)|(\033\[0m)/', '', $mbstring);
+    $actualLength = \mb_strlen($extra);
+    $expandSize   = $length - $actualLength;
+    if ($expandSize < 0) {
+        $expandSize = 0;
+    }
+    return join([$mbstring,\str_repeat($padding, $expandSize)]);
 }
 
 
