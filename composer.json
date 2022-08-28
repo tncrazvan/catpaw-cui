@@ -25,13 +25,8 @@
         }
     ],
     "autoload": {
-        "psr-4": {
-            "CatPaw\\CUI\\": "src/lib/"
-        },
         "files": [
-            "src/lib/Colors/functions.php",
-            "src/lib/Components/functions.php",
-            "src/lib/Utilities/functions.php"
+            "src/lib/functions.php"
         ]
     },
     "require": {
