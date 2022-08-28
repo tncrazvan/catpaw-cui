@@ -9,9 +9,9 @@ function nocolor():string {
 }
 
 /**
- * @param int $red
- * @param int $green
- * @param int $blue
+ * @param  int    $red
+ * @param  int    $green
+ * @param  int    $blue
  * @return string
  */
 function background(
@@ -26,9 +26,9 @@ function background(
 }
 
 /**
- * @param int $red
- * @param int $green
- * @param int $blue
+ * @param  int    $red
+ * @param  int    $green
+ * @param  int    $blue
  * @return string
  */
 function foreground(
@@ -48,4 +48,20 @@ function foreground(
  */
 function clear():string {
     return \join([nocolor(),"\033c"]);
+}
+
+/**
+ * Create some colorful text.
+ * @param  string      $value
+ * @param  array|false $foregroundRGB
+ * @param  array|false $backgroundRGB
+ * @return string
+ */
+function text(string $value, array|false $foregroundRGB = false, array|false $backgroundRGB = false):string {
+    return join([
+        $foregroundRGB?foreground(...$foregroundRGB):'',
+        $backgroundRGB?background(...$backgroundRGB):'',
+        $value,
+        nocolor(),
+    ]);
 }
