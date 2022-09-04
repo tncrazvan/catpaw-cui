@@ -1,1 +1,1 @@
-php -dxdebug.mode=off -dzend.assertions=-1 dist/app.phar
+XDEBUG_MODE=debug php -dzend.assertions=-1 dist/app.phar
